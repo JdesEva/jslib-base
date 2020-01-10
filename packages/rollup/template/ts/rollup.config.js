@@ -1,6 +1,8 @@
 // rollup.config.js
 // commonjs
 var common = require('./rollup.js');
+var serve = require('rollup-plugin-serve')
+var livereload = require('rollup-plugin-livereload')
 
 module.exports = {
     input: 'src/index.ts',
@@ -13,8 +15,19 @@ module.exports = {
     },
     plugins: [
         common.getCompiler({
-            tsconfigOverride: { compilerOptions : { declaration: true, module: 'ES2015' } },
+            tsconfigOverride: { compilerOptions: { declaration: true, module: 'ES2015' } },
             useTsconfigDeclarationDir: true
+        }),
+        serve({
+            open: true, // 是否打开浏览器
+            contentBase: './',
+            historyApiFallback: true, // Set to true to return index.html instead of 404
+            host: 'localhost',
+            port: 3003
+        }),
+        livereload({
+            verbose: true,
+            watch: ['dist']
         })
     ]
 };

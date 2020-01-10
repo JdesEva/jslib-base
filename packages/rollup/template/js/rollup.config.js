@@ -1,6 +1,8 @@
 // rollup.config.js
 // commonjs
 var common = require('./rollup.js');
+var serve = require('rollup-plugin-serve')
+var livereload = require('rollup-plugin-livereload')
 
 module.exports = {
     input: 'src/index.js',
@@ -12,6 +14,17 @@ module.exports = {
         banner: common.banner,
     },
     plugins: [
-        common.getCompiler()
+        common.getCompiler(),
+        serve({
+            open: true, // 是否打开浏览器
+            contentBase: './',
+            historyApiFallback: true, // Set to true to return index.html instead of 404
+            host: 'localhost',
+            port: 3003
+        }),
+        livereload({
+            verbose: true,
+            watch: ['dist']
+        })
     ]
 };
